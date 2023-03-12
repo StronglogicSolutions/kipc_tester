@@ -1,11 +1,12 @@
 #include <zmq.hpp>
 #include <kproto/ipc.hpp>
 
-using msg_t = kiq::platform_request;
+using msg_t = kiq::platform_message;
+static const char* urls = "https://logicp.ca/stronglogic01.png>https://stronglogicsolutions.com/stronglogic01.png";
 
 msg_t make_message()
 {
-  return kiq::platform_request{"kiq", "1", "logicp", "Hello", "{}"};
+  return msg_t{"KIQ", "991", "logicp", "Hello", urls};
 }
 
 void send(zmq::socket_t& socket, msg_t msg)
