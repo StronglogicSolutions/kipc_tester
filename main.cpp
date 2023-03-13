@@ -4,9 +4,9 @@
 using msg_t = kiq::platform_message;
 static const char* urls = "https://logicp.ca/stronglogic01.png>https://stronglogicsolutions.com/stronglogic01.png";
 
-msg_t make_message()
+msg_t make_message(std::string_view msg = "Hello")
 {
-  return msg_t{"KIQ", "991", "logicp", "Hello", urls};
+  return msg_t{"KIQ", "991", "logicp", msg.data(), urls};
 }
 
 void send(zmq::socket_t& socket, msg_t msg)
@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
   zmq::socket_t  socket{ctx, ZMQ_DEALER};
   socket.connect(addr);
 
-  send(socket, make_message());
+  send(socket, make_message((argc > 2) ? argv[2] : ""));
 
   socket.disconnect(addr);
 
